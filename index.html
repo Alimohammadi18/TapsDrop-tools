@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube & Instagram Video Downloader</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+            margin-top: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        h2 {
+            font-size: 30px;
+            color: #007BFF;
+            font-family: 'Verdana', sans-serif;
+            margin-bottom: 40px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            outline: none;
+        }
+        input[type="text"]:focus {
+            border-color: #007BFF;
+        }
+        .btn-download {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-download:hover {
+            background-color: #0056b3;
+        }
+        .loading-bar {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            display: none;
+        }
+        .loading-bar-inner {
+            height: 15px;
+            background-color: #28a745;
+            width: 0;
+            border-radius: 5px;
+            transition: width 0.4s ease;
+        }
+        .download-link {
+            display: none;
+            margin-top: 20px;
+        }
+        .download-link a {
+            color: #28a745;
+            font-size: 18px;
+            text-decoration: none;
+        }
+        .download-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Welcome to This Site</h2>
+
+    <div class="container">
+        <h1>YouTube Video Downloader</h1>
+        <input type="text" id="youtubeLink" placeholder="Paste YouTube video link here">
+        <button class="btn-download" onclick="startDownload()">Download Video</button>
+
+        <div class="loading-bar" id="loadingBar">
+            <div class="loading-bar-inner" id="loadingBarInner"></div>
+        </div>
+
+        <div class="download-link" id="downloadLink">
+            <p>Your download is ready: <a href="#" id="downloadUrl" download>Download Video</a></p>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Instagram Video Downloader</h1>
+        <input type="text" id="instaLink" placeholder="Paste Instagram video link here">
+        <button class="btn-download" onclick="startDownload()">Download Video</button>
+
+        <div class="loading-bar" id="loadingBarInsta">
+            <div class="loading-bar-inner" id="loadingBarInnerInsta"></div>
+        </div>
+
+        <div class="download-link" id="downloadLinkInsta">
+            <p>Your download is ready: <a href="#" id="downloadUrlInsta" download>Download Video</a></p>
+        </div>
+    </div>
+
+    <script>
+        function startDownload() {
+            var link = document.getElementById('youtubeLink').value || document.getElementById('instaLink').value;
+            if (link === '') {
+                alert('Please enter a valid video link!');
+                return;
+            }
+
+            var loadingBar = link.includes('instagram') ? document.getElementById('loadingBarInsta') : document.getElementById('loadingBar');
+            var loadingBarInner = link.includes('instagram') ? document.getElementById('loadingBarInnerInsta') : document.getElementById('loadingBarInner');
+            var downloadLink = link.includes('instagram') ? document.getElementById('downloadLinkInsta') : document.getElementById('downloadLink');
+            var downloadUrl = link.includes('instagram') ? document.getElementById('downloadUrlInsta') : document.getElementById('downloadUrl');
+
+            loadingBar.style.display = 'block';
+            downloadLink.style.display = 'none';
+            loadingBarInner.style.width = '0';
+
+            // Simulating a loading process with a timeout
+            var progress = 0;
+            var interval = setInterval(function () {
+                progress += 10;
+                loadingBarInner.style.width = progress + '%';
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    // Simulate setting the download link
+                    loadingBar.style.display = 'none';
+                    downloadLink.style.display = 'block';
+                    downloadUrl.href = '#';  // Replace with the actual video URL
+                }
+            }, 300);
+        }
+    </script>
+
+</body>
+</html>
